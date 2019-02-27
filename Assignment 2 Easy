@@ -1,0 +1,72 @@
+Sub TotalStockVolume():
+
+'Create variable to define worksheet
+Dim ws As Worksheet
+
+'Loop through every worksheet
+For Each ws In Worksheets
+
+'Activate the worksheet that you working on
+    ws.Activate
+    
+'Create variables for The ticker and Total Stock Volume
+Dim Ticker As String
+
+Dim TotalStockVolume As Double
+
+'Determine the last row
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+
+'Set the initial total to zero
+TotalStockVolume = 0
+
+'Keep the information for each Ticker group and start from row 2
+counterrow = 2
+
+'Set the headers of the summary table for Ticker and Total stock volume
+Cells(1, 12).Value = "Ticker"
+
+Cells(1, 15).Value = "Total Stock Volume"
+
+'Loop through every row in the data
+    For i = 2 To lastrow
+
+'Set the condition for choosing values for the process
+    If Cells(i, 1).Value <> Cells(i + 1, 1).Value Then
+     
+        Ticker = Cells(i, 1).Value
+     
+        TotalStockVolume = TotalStockVolume + Cells(i, 7).Value
+
+'Print each Ticker in the summary table
+        Range("L" & counterrow).Value = Ticker
+
+'Print each Ticker in the summary table
+        Range("O" & counterrow).Value = TotalStockVolume
+
+' Add one to the summary table row
+        counterrow = counterrow + 1
+
+' Reset the Total Stock Volume
+        TotalStockVolume = 0
+      
+' If the cell immediately following a row is the same ticker then do this process
+    Else
+
+'Add to the Total Stock Volume
+    TotalStockVolume = TotalStockVolume + Cells(i, 7).Value
+            
+'End the condition
+    End If
+
+'Carry out the same function on the next row
+    Next i
+    
+'Carry out the same function on the next Worksheet
+Next ws
+
+
+End Sub
+
+
